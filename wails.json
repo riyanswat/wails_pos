@@ -1,0 +1,39 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "POS",
+  "outputfilename": "pos",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Rayan Khan",
+    "email": "abc@xyz.com"
+  },
+  "build": {
+    "targets": [
+      {
+        "os": "darwin",
+        "arch": "amd64",
+        "outputName": "pos-darwin-amd64"
+      },
+      {
+        "os": "linux",
+        "arch": "amd64",
+        "outputName": "pos-linux-amd64"
+      },
+      {
+        "os": "win32",
+        "arch": "amd64",
+        "outputName": "pos-win32-amd64",
+        "compatibility": ["windows7", "windows8"]
+      },
+      {
+      "os": "win32",
+      "arch": "386",
+      "outputName": "pos-win32-386",
+      "compatibility": ["windows7", "windows8"]
+    }
+    ]
+  }
+}

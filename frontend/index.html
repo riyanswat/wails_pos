@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/app.css" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <title>Password manager</title>
+  </head>
+  <body>
+    <!-- ????????????????? HOMEPAGE ???????????????? -->
+    <div id="app" class="container">
+      <div class="container">
+        <h1 id="main-heading" class="main-heading">PASSWORD MANAGER</h1>
+        <img
+          id="logo"
+          src="src/assets/images/pos.jpg"
+          class="logo"
+          draggable="false"
+        />
+      </div>
+      <br />
+
+      <div class="inputs">
+        <div id="alertMessage"></div>
+        <div class="result" id="result"></div>
+        <div class="input-box">
+          <div class="input-field">
+            <input
+              class="input"
+              placeholder="Website"
+              id="website"
+              type="text"
+              autocomplete="off"
+            />
+          </div>
+          <div class="input-field">
+            <input
+              class="input"
+              placeholder="Email"
+              id="email"
+              type="text"
+              autocomplete="off"
+            />
+          </div>
+          <div class="input-field">
+            <input
+              class="input"
+              placeholder="Password"
+              id="password"
+              type="text"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div class="buttons">
+          <div class="btn" id="generate-btn">Generate</div>
+          <div class="btn" id="add-btn">Add</div>
+          <div class="btn" id="search-btn">Search</div>
+          <div class="btn" id="edit-btn">Edit</div>
+          <div class="btn" id="show-btn">Show all</div>
+          <div class="btn" id="delete-btn">Delete</div>
+        </div>
+      </div>
+    </div>
+    <!-- ????????????????? HOMEPAGE ???????????????? -->
+
+    <!-- 
+      !
+      !
+      !
+     -->
+
+    <!-- ????????????????? ALL DATA ???????????????? -->
+
+    <div id="all-data" class="container">
+      <div class="container">
+        <h1 class="main-heading">ALL DATA</h1>
+        <img
+          id="logo"
+          src="src/assets/images/pos.jpg"
+          class="logo"
+          draggable="false"
+        />
+      </div>
+      <br />
+      <div class="wrapper">
+        <div class="buttons">
+          <div class="btn" id="home">Back to home</div>
+          <br />
+          <br />
+          <table>
+            <thead>
+              <tr id="head">
+                <th>Website</th>
+                <th>Email</th>
+                <th>Password</th>
+              </tr>
+            </thead>
+            <tbody id="data-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ????????????????? ALL DATA ???????????????? -->
+
+    <script src="./src/main.js" type="module"></script>
+    <script src="./src/utils.js" type="module"></script>
+  </body>
+</html>
