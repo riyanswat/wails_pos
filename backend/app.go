@@ -1,13 +1,12 @@
-package main
+package backend
 
 import (
 	"context"
-	// "embed"
-	"pos/backend"
+	"embed"
 	"regexp"
 )
 
-// var content embed.FS
+var content embed.FS
 
 // App struct
 type App struct {
@@ -25,26 +24,75 @@ func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Expose backend apis to frontend
+// Expose BACKEND apis to frontend
 func (a *App) Generate(length int) string {
-	return backend.GenerateRandomPassword(length)
+	return GenerateRandomPassword(length)
 }
 
 func (a *App) Add(website, email, password string) string {
-	return backend.AddToJSON(website, email, password)
+	return AddToJSON(website, email, password)
 }
 
 func (a *App) Delete(websiteToDelete string) string {
-	return backend.DeleteFromJSON(websiteToDelete)
+	return DeleteFromJSON(websiteToDelete)
 }
 
 func (a *App) Search(webToSearch string) ([]interface{}, error) {
-	return backend.SearchWebsite(webToSearch)
+	return SearchWebsite(webToSearch)
 }
 
-func (a *App) AllData() []backend.UserData {
-	return backend.ShowAll()
+func (a *App) AllData() []UserData {
+	return ShowAll()
 }
+
+// func (a *App) Edit(web, email, password, editOption string) string {
+// 	spacesPattern := `^\s+$`
+// 	spacesRe := regexp.MustCompile(spacesPattern)
+
+// validateInput := func(value, errorMessage string) string {
+// 	if value == "" || spacesRe.MatchString(value) {
+// 		return errorMessage
+// 	}
+// 	return ""
+// }
+
+// 	websiteError := validateInput(web, "Enter a website")
+// 	emailError := ""
+// 	passwordError := ""
+
+// 	switch editOption {
+// 	case "email":
+// 		emailError = validateInput(email, "Enter a valid email")
+// 	case "password":
+// 		passwordError = validateInput(password, "Enter a valid password")
+// 	case "both":
+// 		emailError = validateInput(email, "Enter a valid email")
+// 		passwordError = validateInput(password, "Enter a valid password")
+// 		if emailError != "" || passwordError != "" {
+// 			return "Enter valid values"
+// 		}
+// 		if email == "" || password == "" {
+// 			return "Enter both email and password"
+// 		}
+// 	default:
+// 		return "Invalid edit option"
+// 	}
+
+// 	if websiteError != "" {
+// 		return websiteError
+// 	}
+
+// 	data := EditConfig{
+// 		WebsiteToEdit: web,
+// 		NewEmail:      email,
+// 		NewPassword:   password,
+// 		EditOption:    editOption,
+// 	}
+
+// 	return EditJSON(data)
+// }
+
+// ? ====================================================================
 
 func (a *App) Edit(web, email, password, editOption string) string {
 	spacesPattern := `^\s+$`
@@ -75,40 +123,40 @@ func (a *App) Edit(web, email, password, editOption string) string {
 	}
 
 	if editOption == "both" {
-		data := backend.EditConfig{
+		data := EditConfig{
 			WebsiteToEdit: web,
 			NewEmail:      email,
 			NewPassword:   password,
 			EditOption:    editOption,
 		}
-		return backend.EditJSON(data)
+		return EditJSON(data)
 	}
 
 	if editOption == "email" {
-		data := backend.EditConfig{
+		data := EditConfig{
 			WebsiteToEdit: web,
 			NewEmail:      email,
 			EditOption:    editOption,
 		}
 
-		return backend.EditJSON(data)
+		return EditJSON(data)
 	} else if editOption == "password" {
-		data := backend.EditConfig{
+		data := EditConfig{
 			WebsiteToEdit: web,
 			NewPassword:   password,
 			EditOption:    editOption,
 		}
 
-		return backend.EditJSON(data)
+		return EditJSON(data)
 	} else if editOption == "both" {
-		data := backend.EditConfig{
+		data := EditConfig{
 			WebsiteToEdit: web,
 			NewEmail:      email,
 			NewPassword:   password,
 			EditOption:    editOption,
 		}
 
-		return backend.EditJSON(data)
+		return EditJSON(data)
 	} else {
 		return "Unexpected edit option"
 	}

@@ -1,5 +1,11 @@
 package backend
 
+// File path:
+// var FileName string = "./backend/embed/data.json"
+var FileName string = "./embed/data.json"
+
+// STRUCTS:
+// user json struct
 type UserData struct {
 	Website  string `json:"website"`
 	Email    string `json:"email"`

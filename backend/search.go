@@ -14,9 +14,9 @@ import (
 // * ------------------------------------
 
 func SearchWebsite(webToSearch string) ([]interface{}, error) {
-	filename := "./backend/embed/data.json"
+	// FileName := "./backend/embed/data.json"
 
-	data, err := os.ReadFile(filename)
+	data, err := os.ReadFile(FileName)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to read JSON file: %v", err)
 	}
@@ -39,9 +39,9 @@ func SearchWebsite(webToSearch string) ([]interface{}, error) {
 // * ------------------------------------
 
 // func SearchWebsite(webToSearch string) (UserData, string) {
-// 	filename := "./backend/embed/data.json"
+// 	FileName := "./backend/embed/data.json"
 
-// 	data, err := os.ReadFile(filename)
+// 	data, err := os.ReadFile(FileName)
 // 	if err != nil {
 // 		return UserData{}, fmt.Sprintf("Failed to read JSON file: %v", err)
 // 	}
@@ -64,11 +64,11 @@ func SearchWebsite(webToSearch string) ([]interface{}, error) {
 //! ========================================
 
 // func SearchWebsite(webToSearch string) string {
-// 	filename := "./backend/embed/data.json"
+// 	FileName := "./backend/embed/data.json"
 // 	//TODO: return multiple values from this function
 // 	// the first value should be a string or bool indicating that the value was found
 // 	// the second should be a UserData struct exposing the data to the frontend
-// 	data, err := os.ReadFile(filename)
+// 	data, err := os.ReadFile(FileName)
 // 	if err != nil {
 // 		return fmt.Sprintf("Failed to read JSON file: %v", err)
 // 	}

@@ -2,10 +2,10 @@ package main
 
 import (
 	"embed"
+	"pos/backend"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
-
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
 )
@@ -15,11 +15,11 @@ var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
-	app := NewApp()
+	app := backend.NewApp()
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:         "Password manager",
+		Title:         "POINT OF SALE",
 		Width:         600,
 		Height:        700,
 		DisableResize: true,

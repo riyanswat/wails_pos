@@ -8,9 +8,9 @@ import (
 )
 
 func EditJSON(config EditConfig) string {
-	filename := "./backend/embed/data.json"
+	// FileName := "./backend/embed/data.json"
 
-	data, err := os.ReadFile(filename)
+	data, err := os.ReadFile(FileName)
 	if err != nil {
 		return "Failed to read JSON file"
 	}
@@ -50,7 +50,7 @@ func EditJSON(config EditConfig) string {
 		return "Failed to marshal updated data"
 	}
 
-	if err := os.WriteFile(filename, updatedData, os.ModePerm); err != nil {
+	if err := os.WriteFile(FileName, updatedData, os.ModePerm); err != nil {
 		return "Failed to update the file"
 	}
 

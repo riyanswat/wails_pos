@@ -9,14 +9,10 @@ import {
   Search,
   AllData,
   Edit,
-  // PasswordProtection,
-} from "../wailsjs/go/main/App";
+} from "../wailsjs/go/backend/App";
 
-class PasswordManager {
+class PointOfSale {
   constructor() {
-    // password protection
-    this.passwordProtection = "riyan";
-
     // input and output elements
     this.passwordElement = document.getElementById("password");
     this.websiteElement = document.getElementById("website");
@@ -94,22 +90,6 @@ class PasswordManager {
     };
   }
 
-  async _getPassword() {
-    const { value: password } = await Swal.fire({
-      title: "Enter your password",
-      input: "password",
-      inputLabel: "Password",
-      inputPlaceholder: "Enter your password",
-      inputAttributes: {
-        maxlength: "10",
-        autocapitalize: "off",
-        autocorrect: "off",
-      },
-    });
-
-    return password;
-  }
-
   // non-private methods
 
   async handleAdd() {
@@ -119,12 +99,6 @@ class PasswordManager {
       return;
     }
 
-    // check if password is correct
-    const password = await this._getPassword();
-    if (password != this.passwordProtection) {
-      Swal.fire("Incorrect password");
-      return;
-    }
     try {
       Add(
         this.websiteElement.value,
@@ -153,13 +127,6 @@ class PasswordManager {
     const websiteToDelete = this.websiteElement.value;
     if (!websiteToDelete) {
       showAlert(this.alertMessage, "Please enter a website");
-      return;
-    }
-
-    // check if password is correct
-    const password = await this._getPassword();
-    if (password != this.passwordProtection) {
-      Swal.fire("Incorrect password");
       return;
     }
 
@@ -208,16 +175,6 @@ class PasswordManager {
   }
 
   async handleShowAll() {
-    // const protectionHtml =
-    //   '<input id="protect" class="swal2-input" placeholder="Password">';
-
-    // check if password is correct
-    const password = await this._getPassword();
-    if (password != this.passwordProtection) {
-      Swal.fire("Incorrect password");
-      return;
-    }
-
     this.dataTableBody.innerHTML = "";
 
     this._toggleDisplay();
@@ -257,13 +214,6 @@ class PasswordManager {
     const websiteToSearch = this.websiteElement.value;
     if (!websiteToSearch) {
       showAlert(this.alertMessage, "Please enter a website");
-      return;
-    }
-
-    // check if password is correct
-    const password = await this._getPassword();
-    if (password != this.passwordProtection) {
-      Swal.fire("Incorrect password");
       return;
     }
 
@@ -314,13 +264,6 @@ class PasswordManager {
   async handleEdit() {
     if (!this.websiteElement.value) {
       showAlert(this.alertMessage, "Enter a website to edit");
-      return;
-    }
-
-    // check if password is correct
-    const password = await this._getPassword();
-    if (password != this.passwordProtection) {
-      Swal.fire("Incorrect password");
       return;
     }
 
@@ -455,5 +398,5 @@ class PasswordManager {
   }
 }
 
-// instance of PasswordManager
-const passwordManager = new PasswordManager();
+// instance of PointOfSale
+const pos = new PointOfSale();

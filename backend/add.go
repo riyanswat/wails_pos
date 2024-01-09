@@ -8,7 +8,7 @@ import (
 )
 
 func AddToJSON(website, email, password string) string {
-	filename := "./backend/embed/data.json"
+	// FileName := "./backend/embed/data.json"
 
 	// create data dir
 	if err := os.MkdirAll("embed", os.ModePerm); err != nil {
@@ -35,16 +35,16 @@ func AddToJSON(website, email, password string) string {
 	}
 
 	// email validation
-	// emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
-	// re := regexp.MustCompile(emailRegex)
+	emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+	re := regexp.MustCompile(emailRegex)
 
-	// if !re.MatchString(email) {
-	// 	return "Invalid email"
-	// }
+	if !re.MatchString(email) {
+		return "Invalid email"
+	}
 
 	// Read existing JSON file
 	var existingData []UserData
-	file, err := os.Open(filename)
+	file, err := os.Open(FileName)
 	if err != nil {
 		existingData = make([]UserData, 0)
 	} else {
@@ -66,7 +66,7 @@ func AddToJSON(website, email, password string) string {
 	existingData = append(existingData, data)
 
 	// Create/open the JSON for writing
-	file, err = os.Create(filename)
+	file, err = os.Create(FileName)
 	if err != nil {
 		return "Error creating data file"
 	}
