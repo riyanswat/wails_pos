@@ -29,23 +29,23 @@ func (a *App) Generate(length int) string {
 	return GenerateRandomPassword(length)
 }
 
-func (a *App) Add(website, email, password string) string {
-	return AddToJSON(website, email, password)
+func (a *App) Add(item, quantity, password string) string {
+	return AddToJSON(item, quantity, password)
 }
 
-func (a *App) Delete(websiteToDelete string) string {
-	return DeleteFromJSON(websiteToDelete)
+func (a *App) Delete(itemToDelete string) string {
+	return DeleteFromJSON(itemToDelete)
 }
 
-func (a *App) Search(webToSearch string) ([]interface{}, error) {
-	return SearchWebsite(webToSearch)
+func (a *App) Search(itemToSearch string) ([]interface{}, error) {
+	return SearchItem(itemToSearch)
 }
 
 func (a *App) AllData() []UserData {
 	return ShowAll()
 }
 
-// func (a *App) Edit(web, email, password, editOption string) string {
+// func (a *App) Edit(web, quantity, password, editOption string) string {
 // 	spacesPattern := `^\s+$`
 // 	spacesRe := regexp.MustCompile(spacesPattern)
 
@@ -56,35 +56,35 @@ func (a *App) AllData() []UserData {
 // 	return ""
 // }
 
-// 	websiteError := validateInput(web, "Enter a website")
-// 	emailError := ""
+// 	itemError := validateInput(web, "Enter a item")
+// 	quantityError := ""
 // 	passwordError := ""
 
 // 	switch editOption {
-// 	case "email":
-// 		emailError = validateInput(email, "Enter a valid email")
+// 	case "quantity":
+// 		quantityError = validateInput(quantity, "Enter a valid quantity")
 // 	case "password":
 // 		passwordError = validateInput(password, "Enter a valid password")
 // 	case "both":
-// 		emailError = validateInput(email, "Enter a valid email")
+// 		quantityError = validateInput(quantity, "Enter a valid quantity")
 // 		passwordError = validateInput(password, "Enter a valid password")
-// 		if emailError != "" || passwordError != "" {
+// 		if quantityError != "" || passwordError != "" {
 // 			return "Enter valid values"
 // 		}
-// 		if email == "" || password == "" {
-// 			return "Enter both email and password"
+// 		if quantity == "" || password == "" {
+// 			return "Enter both quantity and password"
 // 		}
 // 	default:
 // 		return "Invalid edit option"
 // 	}
 
-// 	if websiteError != "" {
-// 		return websiteError
+// 	if itemError != "" {
+// 		return itemError
 // 	}
 
 // 	data := EditConfig{
-// 		WebsiteToEdit: web,
-// 		NewEmail:      email,
+// 		ItemToEdit: web,
+// 		NewQuantity:      quantity,
 // 		NewPassword:   password,
 // 		EditOption:    editOption,
 // 	}
@@ -94,17 +94,17 @@ func (a *App) AllData() []UserData {
 
 // ? ====================================================================
 
-func (a *App) Edit(web, email, password, editOption string) string {
+func (a *App) Edit(web, quantity, password, editOption string) string {
 	spacesPattern := `^\s+$`
 	spacesRe := regexp.MustCompile(spacesPattern)
 
 	if web == "" ||
 		spacesRe.MatchString(web) {
-		return "Enter a website"
+		return "Enter an item"
 	}
 
-	if editOption == "email" && (email == "" || spacesRe.MatchString(email)) {
-		return "Enter a valid email"
+	if editOption == "quantity" && (quantity == "" || spacesRe.MatchString(quantity)) {
+		return "Enter a valid quantity"
 	}
 
 	if editOption == "password" && (password == "" || spacesRe.MatchString(password)) {
@@ -113,47 +113,47 @@ func (a *App) Edit(web, email, password, editOption string) string {
 
 	if editOption == "both" && (password == "" ||
 		spacesRe.MatchString(password) ||
-		email == "" ||
-		spacesRe.MatchString(email)) {
+		quantity == "" ||
+		spacesRe.MatchString(quantity)) {
 		return "Enter valid values"
 	}
 
-	if !(editOption == "email" || editOption == "password" || editOption == "both") {
+	if !(editOption == "quantity" || editOption == "password" || editOption == "both") {
 		return "Invalid edit option"
 	}
 
 	if editOption == "both" {
 		data := EditConfig{
-			WebsiteToEdit: web,
-			NewEmail:      email,
-			NewPassword:   password,
-			EditOption:    editOption,
+			ItemToEdit:  web,
+			NewQuantity: quantity,
+			NewPassword: password,
+			EditOption:  editOption,
 		}
 		return EditJSON(data)
 	}
 
-	if editOption == "email" {
+	if editOption == "quantity" {
 		data := EditConfig{
-			WebsiteToEdit: web,
-			NewEmail:      email,
-			EditOption:    editOption,
+			ItemToEdit:  web,
+			NewQuantity: quantity,
+			EditOption:  editOption,
 		}
 
 		return EditJSON(data)
 	} else if editOption == "password" {
 		data := EditConfig{
-			WebsiteToEdit: web,
-			NewPassword:   password,
-			EditOption:    editOption,
+			ItemToEdit:  web,
+			NewPassword: password,
+			EditOption:  editOption,
 		}
 
 		return EditJSON(data)
 	} else if editOption == "both" {
 		data := EditConfig{
-			WebsiteToEdit: web,
-			NewEmail:      email,
-			NewPassword:   password,
-			EditOption:    editOption,
+			ItemToEdit:  web,
+			NewQuantity: quantity,
+			NewPassword: password,
+			EditOption:  editOption,
 		}
 
 		return EditJSON(data)

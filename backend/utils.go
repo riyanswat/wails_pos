@@ -7,15 +7,15 @@ var FileName string = "./embed/data.json"
 // STRUCTS:
 // user json struct
 type UserData struct {
-	Website  string `json:"website"`
-	Email    string `json:"email"`
+	Item     string `json:"item"`
+	Quantity string `json:"quantity"`
 	Password string `json:"password"`
 }
 
 // Editing configuration struct
 type EditConfig struct {
-	WebsiteToEdit string
-	NewEmail      string
-	NewPassword   string
-	EditOption    string // "email", "password", "both"
+	ItemToEdit  string
+	NewQuantity string
+	NewPassword string
+	EditOption  string // "quantity", "password", "both"
 }

@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func AddToJSON(website, email, password string) string {
+func AddToJSON(item, quantity, password string) string {
 	// FileName := "./backend/embed/data.json"
 
 	// create data dir
@@ -17,8 +17,8 @@ func AddToJSON(website, email, password string) string {
 
 	// Convert input args to UserData struct
 	data := UserData{
-		Website:  strings.ToLower(website),
-		Email:    email,
+		Item:     strings.ToLower(item),
+		Quantity: quantity,
 		Password: password,
 	}
 
@@ -26,21 +26,21 @@ func AddToJSON(website, email, password string) string {
 	spacesReg := regexp.MustCompile(spacesRegex)
 
 	if password == "" ||
-		website == "" ||
-		email == "" ||
-		spacesReg.MatchString(website) ||
-		spacesReg.MatchString(email) ||
+		item == "" ||
+		quantity == "" ||
+		spacesReg.MatchString(item) ||
+		spacesReg.MatchString(quantity) ||
 		spacesReg.MatchString(password) {
 		return "Fill all the fields"
 	}
 
-	// email validation
-	emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
-	re := regexp.MustCompile(emailRegex)
+	// quantity validation
+	// quantityRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+	// re := regexp.MustCompile(quantityRegex)
 
-	if !re.MatchString(email) {
-		return "Invalid email"
-	}
+	// if !re.MatchString(quantity) {
+	// 	return "Invalid quantity"
+	// }
 
 	// Read existing JSON file
 	var existingData []UserData
@@ -55,10 +55,10 @@ func AddToJSON(website, email, password string) string {
 		}
 	}
 
-	// check if website already exists
+	// check if item already exists
 	for _, entry := range existingData {
-		if entry.Website == data.Website {
-			return "Website already exists"
+		if entry.Item == data.Item {
+			return "Item already exists"
 		}
 	}
 

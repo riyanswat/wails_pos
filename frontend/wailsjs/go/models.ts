@@ -1,8 +1,8 @@
 export namespace backend {
 	
 	export class UserData {
-	    website: string;
-	    email: string;
+	    item: string;
+	    quantity: string;
 	    password: string;
 	
 	    static createFrom(source: any = {}) {
@@ -11,8 +11,8 @@ export namespace backend {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.website = source["website"];
-	        this.email = source["email"];
+	        this.item = source["item"];
+	        this.quantity = source["quantity"];
 	        this.password = source["password"];
 	    }
 	}

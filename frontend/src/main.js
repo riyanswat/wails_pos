@@ -15,8 +15,8 @@ class PointOfSale {
   constructor() {
     // input and output elements
     this.passwordElement = document.getElementById("password");
-    this.websiteElement = document.getElementById("website");
-    this.emailElement = document.getElementById("email");
+    this.itemElement = document.getElementById("item");
+    this.quantityElement = document.getElementById("quantity");
     this.alertMessage = document.getElementById("alertMessage");
     // buttons
     this.generateBtn = document.getElementById("generate-btn");
@@ -58,8 +58,8 @@ class PointOfSale {
     // document.addEventListener("keydown", (event) => {
     //   if (event.key === "Enter") {
     //     Add(
-    //       this.websiteElement.value,
-    //       this.emailElement.value,
+    //       this.itemElement.value,
+    //       this.quantityElement.value,
     //       this.passwordElement.value
     //     ).then((res) => {
     //       if (res === "Successful") {
@@ -76,8 +76,8 @@ class PointOfSale {
   }
 
   _clearFields() {
-    this.websiteElement.value = "";
-    this.emailElement.value = "";
+    this.itemElement.value = "";
+    this.quantityElement.value = "";
     this.passwordElement.value = "";
   }
 
@@ -93,16 +93,16 @@ class PointOfSale {
   // non-private methods
 
   async handleAdd() {
-    const websiteToAdd = this.websiteElement.value;
-    if (!websiteToAdd) {
-      showAlert(this.alertMessage, "Please enter a website");
+    const itemToAdd = this.itemElement.value;
+    if (!itemToAdd) {
+      showAlert(this.alertMessage, "Please enter an item");
       return;
     }
 
     try {
       Add(
-        this.websiteElement.value,
-        this.emailElement.value,
+        this.itemElement.value,
+        this.quantityElement.value,
         this.passwordElement.value
       )
         .then((res) => {
@@ -124,18 +124,18 @@ class PointOfSale {
   }
 
   async handleDelete() {
-    const websiteToDelete = this.websiteElement.value;
-    if (!websiteToDelete) {
-      showAlert(this.alertMessage, "Please enter a website");
+    const itemToDelete = this.itemElement.value;
+    if (!itemToDelete) {
+      showAlert(this.alertMessage, "Please enter an item");
       return;
     }
 
-    Search(websiteToDelete).then((res) => {
+    Search(itemToDelete).then((res) => {
       if (res[1] == "yes") {
         //* Confirm deletion
         Swal.fire({
           title: "Are you sure?",
-          text: `Do you really want to delete '${websiteToDelete}'?`,
+          text: `Do you really want to delete '${itemToDelete}'?`,
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#d33",
@@ -144,19 +144,19 @@ class PointOfSale {
         }).then((result) => {
           if (result.isConfirmed) {
             //* Deletion:
-            Delete(websiteToDelete).then((res) => showAlert(alertMessage, res));
+            Delete(itemToDelete).then((res) => showAlert(alertMessage, res));
 
             //* Deletion successful
             Swal.fire({
               title: "Deleted!",
-              text: `'${websiteToDelete}' has been deleted.`,
+              text: `'${itemToDelete}' has been deleted.`,
               icon: "success",
             });
             this._clearFields();
           }
         });
       } else if (res[1] == "no") {
-        showAlert(this.alertMessage, "Website doesn't exist");
+        showAlert(this.alertMessage, "Item doesn't exist");
       }
     });
   }
@@ -188,22 +188,23 @@ class PointOfSale {
     // };
 
     AllData().then((data) => {
+      console.log(data);
       // showAlert(this.alertMessage, data);
       for (let entry of data) {
-        // console.log(entry.website);
-        // console.log(entry.email);
-        // console.log(entry.password);
+        console.log(entry.item);
+        console.log(entry.quantity);
+        console.log(entry.password);
 
         const row = document.createElement("tr");
-        const websiteCell = document.createElement("td");
-        websiteCell.textContent = entry.website;
-        const emailCell = document.createElement("td");
-        emailCell.textContent = entry.email;
+        const itemCell = document.createElement("td");
+        itemCell.textContent = entry.item;
+        const quantityCell = document.createElement("td");
+        quantityCell.textContent = entry.quantity;
         const passwordCell = document.createElement("td");
         passwordCell.textContent = entry.password;
 
-        row.appendChild(websiteCell);
-        row.appendChild(emailCell);
+        row.appendChild(itemCell);
+        row.appendChild(quantityCell);
         row.appendChild(passwordCell);
         this.dataTableBody.appendChild(row);
       }
@@ -211,40 +212,40 @@ class PointOfSale {
   }
 
   async handleSearch() {
-    const websiteToSearch = this.websiteElement.value;
-    if (!websiteToSearch) {
-      showAlert(this.alertMessage, "Please enter a website");
+    const itemToSearch = this.itemElement.value;
+    if (!itemToSearch) {
+      showAlert(this.alertMessage, "Please enter an item");
       return;
     }
 
-    let itemEmail = "";
+    let itemQuantity = "";
     let itemPassword = "";
 
-    Search(websiteToSearch).then((res) => {
+    Search(itemToSearch).then((res) => {
       if (res[1] == "no") {
-        showAlert(this.alertMessage, "Website doesn't exist");
+        showAlert(this.alertMessage, "Item doesn't exist");
         return;
       } else {
-        itemEmail = res[0].email;
+        itemQuantity = res[0].quantity;
         itemPassword = res[0].password;
 
-        const formattedData = `<strong style="user-select: none;">Email:</strong> ${itemEmail} <span id="copy-email" style="cursor: pointer; user-select: none;">&#x1F4CB;</span>
+        const formattedData = `<strong style="user-select: none;">Quantity:</strong> ${itemQuantity} <span id="copy-quantity" style="cursor: pointer; user-select: none;">&#x1F4CB;</span>
                     <br><strong style="user-select: none;">Password:</strong> ${itemPassword} <span id="copy-pass" style="cursor: pointer; user-select: none;">&#x1F4CB;</span>`;
 
         Swal.fire({
-          title: websiteToSearch,
+          title: itemToSearch,
           html: formattedData,
           icon: "info",
         });
 
-        let copyEmail = document.getElementById("copy-email");
+        let copyQuantity = document.getElementById("copy-quantity");
         let copyPassword = document.getElementById("copy-pass");
 
-        copyEmail.onclick = function () {
-          copyToClipboard("email", itemEmail);
-          copyEmail.innerHTML = `<span style="background-color: #3498db; color: #fff; padding: 0 10px 0 10px; border-radius: 4px;">Copied!</span>`;
+        copyQuantity.onclick = function () {
+          copyToClipboard("quantity", itemQuantity);
+          copyQuantity.innerHTML = `<span style="background-color: #3498db; color: #fff; padding: 0 10px 0 10px; border-radius: 4px;">Copied!</span>`;
           setTimeout(() => {
-            copyEmail.innerHTML = "&#x1F4CB;";
+            copyQuantity.innerHTML = "&#x1F4CB;";
           }, 500);
         };
 
@@ -262,21 +263,21 @@ class PointOfSale {
   }
 
   async handleEdit() {
-    if (!this.websiteElement.value) {
-      showAlert(this.alertMessage, "Enter a website to edit");
+    if (!this.itemElement.value) {
+      showAlert(this.alertMessage, "Enter an item to edit");
       return;
     }
 
     let editOption = "";
-    const emailHtml =
-      '<input id="email-input" class="swal2-input" placeholder="Email">';
+    const quantityHtml =
+      '<input id="quantity-input" class="swal2-input" placeholder="Quantity">';
     const passwordHtml =
       '<input id="password-input" class="swal2-input" placeholder="Password">';
-    const bothHtml = `<input id="email-input" class="swal2-input" placeholder="Enter email"><input id="password-input" class="swal2-input" placeholder="Enter password">`;
+    const bothHtml = `<input id="quantity-input" class="swal2-input" placeholder="Enter quantity"><input id="password-input" class="swal2-input" placeholder="Enter password">`;
 
     // const editData = {
-    //   websiteToEdit: this.websiteElement.value,
-    //   newEmail: this.emailElement.value,
+    //   itemToEdit: this.itemElement.value,
+    //   newQuantity: this.quantityElement.value,
     //   newPassword: this.passwordElement.value,
     //   editOption: editOption,
     // };
@@ -284,7 +285,7 @@ class PointOfSale {
     const inputOptions = new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          email: "Email",
+          quantity: "Quantity",
           password: "Password",
           both: "Both",
         });
@@ -305,21 +306,21 @@ class PointOfSale {
       if (option) {
         editOption = option;
         // ? EDIT EMAIL:
-        if (editOption == "email") {
+        if (editOption == "quantity") {
           Swal.fire({
-            title: "Enter new email",
-            html: emailHtml,
+            title: "Enter new quantity",
+            html: quantityHtml,
             showCancelButton: true,
             confirmButtonText: "Submit",
             cancelButtonText: "Cancel",
             focusConfirm: false,
             preConfirm: () => {
-              return document.getElementById("email-input").value;
+              return document.getElementById("quantity-input").value;
             },
           }).then((result) => {
             if (result.isConfirmed) {
-              console.log(this.websiteElement.value, result.value, "", "email");
-              Edit(this.websiteElement.value, result.value, "", "email").then(
+              console.log(this.itemElement.value, result.value, "", "quantity");
+              Edit(this.itemElement.value, result.value, "", "quantity").then(
                 (res) => {
                   showAlert(this.alertMessage, res);
                 }
@@ -340,27 +341,19 @@ class PointOfSale {
             },
           }).then((result) => {
             if (result.isConfirmed) {
-              console.log(
-                this.websiteElement.value,
-                result.value,
-                "",
-                "password"
+              console.log(this.itemElement.value, result.value, "", "password");
+              Edit(this.itemElement.value, "", result.value, "password").then(
+                (res) => {
+                  showAlert(this.alertMessage, res);
+                }
               );
-              Edit(
-                this.websiteElement.value,
-                "",
-                result.value,
-                "password"
-              ).then((res) => {
-                showAlert(this.alertMessage, res);
-              });
               // Swal.fire("You entered:", `${result}`);
             }
           });
           // ? EDIT BOTH
         } else if (editOption == "both") {
           Swal.fire({
-            title: "Enter new email and password",
+            title: "Enter new quantity and password",
             html: bothHtml,
             showCancelButton: true,
             confirmButtonText: "Submit",
@@ -368,20 +361,20 @@ class PointOfSale {
             focusConfirm: false,
             preConfirm: () => {
               return [
-                document.getElementById("email-input").value,
+                document.getElementById("quantity-input").value,
                 document.getElementById("password-input").value,
               ];
             },
           }).then((result) => {
             if (result.isConfirmed) {
               console.log(
-                this.websiteElement.value,
+                this.itemElement.value,
                 result.value[0],
                 result.value[1],
                 "both"
               );
               Edit(
-                this.websiteElement.value,
+                this.itemElement.value,
                 result.value[0],
                 result.value[1],
                 "both"

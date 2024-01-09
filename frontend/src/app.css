@@ -23,8 +23,10 @@
 .main-heading {
   display: inline-block;
   color: #64CCC5;
-  font-family: "Times New Roman", serif;
+  font-family: 'Poiret One', sans-serif;
   font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 4px;
   cursor: default;
   user-select: none;
   width: 100%;
@@ -78,7 +80,8 @@
   padding: 0 10px;
   outline: none;
   color: #64CCC5;
-  background-color: #1b2636;
+  background-color: rgb(3, 28, 66);
+  /* background-color: #1b2636; */
   margin-bottom: 10px;
   font-family: 'Times New Roman', Times, serif;
   font-size: 17px;
@@ -101,7 +104,8 @@
   height: 35px;
   width: 100%;
   margin: 3px;
-  background-color: #4C4E5F;
+  background-color: rgb(15, 52, 107);
+  /* background-color: #4C4E5F; */
   /* background-color: #40587a; */
   cursor: pointer;
   transition-duration: 0.1s;
@@ -110,26 +114,28 @@
 }
 
 .btn:hover {
+  background-color: rgb(10, 46, 99);
+  /* background-color: #414358; */
   /* background-color: #394f6e; */
-  background-color: #414358;
 }
 
 .btn:active {
+  background-color: rgb(8, 41, 90);
+  /* background-color: #373a4d; */
   /* background-color: #33465f; */
-  background-color: #373a4d;
   transform: translateY(1px);
 }
 
 #delete-btn {
-background-color: rgb(218, 45, 45);
+background-color: rgb(207, 34, 34);
 }
 
 #delete-btn:hover {
-background-color: rgb(207, 35, 35);
+background-color: rgb(203, 28, 28);
 }
 
 #delete-btn:active {
-background-color: rgb(194, 30, 30);
+background-color: rgb(198, 22, 22);
 }
 
 #alertMessage {

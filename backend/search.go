@@ -13,7 +13,7 @@ import (
 
 // * ------------------------------------
 
-func SearchWebsite(webToSearch string) ([]interface{}, error) {
+func SearchItem(itemToSearch string) ([]interface{}, error) {
 	// FileName := "./backend/embed/data.json"
 
 	data, err := os.ReadFile(FileName)
@@ -27,18 +27,18 @@ func SearchWebsite(webToSearch string) ([]interface{}, error) {
 	}
 
 	for _, user := range users {
-		if strings.ToLower(user.Website) == strings.ToLower(webToSearch) {
+		if strings.ToLower(user.Item) == strings.ToLower(itemToSearch) {
 			return []interface{}{user, "yes"}, nil
 		}
 	}
 
-	// If the loop completes and the website is not found, then return "Not found"
+	// If the loop completes and the item is not found, then return "Not found"
 	return []interface{}{UserData{}, "no"}, nil
 }
 
 // * ------------------------------------
 
-// func SearchWebsite(webToSearch string) (UserData, string) {
+// func SearchItem(itemToSearch string) (UserData, string) {
 // 	FileName := "./backend/embed/data.json"
 
 // 	data, err := os.ReadFile(FileName)
@@ -52,18 +52,18 @@ func SearchWebsite(webToSearch string) ([]interface{}, error) {
 // 	}
 
 // 	for _, user := range users {
-// 		if strings.ToLower(user.Website) == strings.ToLower(webToSearch) {
+// 		if strings.ToLower(user.Item) == strings.ToLower(itemToSearch) {
 // 			return user, "yes"
 // 		}
 // 	}
 
-// 	// If the loop completes and the website is not found, then return "Not found"
+// 	// If the loop completes and the item is not found, then return "Not found"
 // 	return UserData{}, "no"
 // }
 
 //! ========================================
 
-// func SearchWebsite(webToSearch string) string {
+// func SearchItem(itemToSearch string) string {
 // 	FileName := "./backend/embed/data.json"
 // 	//TODO: return multiple values from this function
 // 	// the first value should be a string or bool indicating that the value was found
@@ -79,11 +79,11 @@ func SearchWebsite(webToSearch string) ([]interface{}, error) {
 // 	}
 
 // 	for _, user := range users {
-// 		if strings.ToLower(user.Website) == strings.ToLower(webToSearch) {
+// 		if strings.ToLower(user.Item) == strings.ToLower(itemToSearch) {
 // 			return "yes"
 // 		}
 // 	}
 
-// 	// If the loop completes and the website is not found, then return "Not found"
+// 	// If the loop completes and the item is not found, then return "Not found"
 // 	return "no"
 // }

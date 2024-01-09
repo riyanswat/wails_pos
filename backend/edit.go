@@ -21,20 +21,20 @@ func EditJSON(config EditConfig) string {
 	}
 
 	for i, user := range users {
-		if strings.ToLower(user.Website) == strings.ToLower(config.WebsiteToEdit) {
+		if strings.ToLower(user.Item) == strings.ToLower(config.ItemToEdit) {
 			// check edit option and update accordingly
 			switch config.EditOption {
-			case "email":
-				if config.NewEmail != "" {
-					users[i].Email = config.NewEmail
+			case "quantity":
+				if config.NewQuantity != "" {
+					users[i].Quantity = config.NewQuantity
 				}
 			case "password":
 				if config.NewPassword != "" {
 					users[i].Password = config.NewPassword
 				}
 			case "both":
-				if config.NewEmail != "" {
-					users[i].Email = config.NewEmail
+				if config.NewQuantity != "" {
+					users[i].Quantity = config.NewQuantity
 				}
 				if config.NewPassword != "" {
 					users[i].Password = config.NewPassword

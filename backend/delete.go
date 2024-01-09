@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func DeleteFromJSON(websiteToDelete string) string {
+func DeleteFromJSON(itemToDelete string) string {
 	// FileName := "./backend/embed/data.json"
 
 	data, err := os.ReadFile(FileName)
@@ -23,22 +23,22 @@ func DeleteFromJSON(websiteToDelete string) string {
 
 	// Create a new slice to store updated data
 	var updatedUsers []UserData
-	websiteFound := false
+	itemFound := false
 
-	// Check if the website == websiteToDelete
+	// Check if the item == itemToDelete
 	for _, user := range users {
 
-		if strings.ToLower(user.Website) == strings.ToLower(websiteToDelete) {
-			websiteFound = true
+		if strings.ToLower(user.Item) == strings.ToLower(itemToDelete) {
+			itemFound = true
 		} else {
-			// Append to updatedUsers only if the website doesn't match
+			// Append to updatedUsers only if the item doesn't match
 			updatedUsers = append(updatedUsers, user)
 		}
 	}
 
-	// If the website is not found, return an error
-	if !websiteFound {
-		return "Website not found"
+	// If the item is not found, return an error
+	if !itemFound {
+		return "Item not found"
 	}
 
 	// Marshal the updated slice back to JSON
