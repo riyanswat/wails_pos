@@ -14,7 +14,7 @@ import {
 class PointOfSale {
   constructor() {
     // input and output elements
-    this.passwordElement = document.getElementById("password");
+    this.priceElement = document.getElementById("price");
     this.itemElement = document.getElementById("item");
     this.quantityElement = document.getElementById("quantity");
     this.alertMessage = document.getElementById("alertMessage");
@@ -26,7 +26,7 @@ class PointOfSale {
     this.deleteBtn = document.getElementById("delete-btn");
     this.showAllBtn = document.getElementById("show-btn");
     // values
-    this.passwordLength = 8;
+    this.priceLength = 8;
 
     // other elements
     this.dataTableBody = document.getElementById("data-table-body");
@@ -51,7 +51,7 @@ class PointOfSale {
     //   // Check if CTRL + G is pressed
     //   if (event.ctrlKey && event.key === "g") {
     //     // Your action here
-    //     this.handleGenerate(this.passwordLength);
+    //     this.handleGenerate(this.priceLength);
     //   }
     // });
 
@@ -60,7 +60,7 @@ class PointOfSale {
     //     Add(
     //       this.itemElement.value,
     //       this.quantityElement.value,
-    //       this.passwordElement.value
+    //       this.priceElement.value
     //     ).then((res) => {
     //       if (res === "Successful") {
     //         showAlert(this.alertMessage, "Added successfully");
@@ -78,7 +78,7 @@ class PointOfSale {
   _clearFields() {
     this.itemElement.value = "";
     this.quantityElement.value = "";
-    this.passwordElement.value = "";
+    this.priceElement.value = "";
   }
 
   _toggleDisplay() {
@@ -103,7 +103,7 @@ class PointOfSale {
       Add(
         this.itemElement.value,
         this.quantityElement.value,
-        this.passwordElement.value
+        this.priceElement.value
       )
         .then((res) => {
           if (res === "Successful") {
@@ -162,16 +162,16 @@ class PointOfSale {
   }
 
   handleGenerate() {
-    Generate(this.passwordLength)
+    Generate(this.priceLength)
       .then((result) => {
-        this.passwordElement.value = result;
-        copyToClipboard("Password", result);
+        this.priceElement.value = result;
+        copyToClipboard("Price", result);
       })
       .catch((err) => {
         console.error(err);
       });
 
-    showAlert(alertMessage, "Password generated");
+    showAlert(alertMessage, "Price generated");
   }
 
   async handleShowAll() {
@@ -193,19 +193,19 @@ class PointOfSale {
       for (let entry of data) {
         console.log(entry.item);
         console.log(entry.quantity);
-        console.log(entry.password);
+        console.log(entry.price);
 
         const row = document.createElement("tr");
         const itemCell = document.createElement("td");
         itemCell.textContent = entry.item;
         const quantityCell = document.createElement("td");
         quantityCell.textContent = entry.quantity;
-        const passwordCell = document.createElement("td");
-        passwordCell.textContent = entry.password;
+        const priceCell = document.createElement("td");
+        priceCell.textContent = entry.price;
 
         row.appendChild(itemCell);
         row.appendChild(quantityCell);
-        row.appendChild(passwordCell);
+        row.appendChild(priceCell);
         this.dataTableBody.appendChild(row);
       }
     });
@@ -219,7 +219,7 @@ class PointOfSale {
     }
 
     let itemQuantity = "";
-    let itemPassword = "";
+    let itemPrice = "";
 
     Search(itemToSearch).then((res) => {
       if (res[1] == "no") {
@@ -227,10 +227,10 @@ class PointOfSale {
         return;
       } else {
         itemQuantity = res[0].quantity;
-        itemPassword = res[0].password;
+        itemPrice = res[0].price;
 
         const formattedData = `<strong style="user-select: none;">Quantity:</strong> ${itemQuantity} <span id="copy-quantity" style="cursor: pointer; user-select: none;">&#x1F4CB;</span>
-                    <br><strong style="user-select: none;">Password:</strong> ${itemPassword} <span id="copy-pass" style="cursor: pointer; user-select: none;">&#x1F4CB;</span>`;
+                    <br><strong style="user-select: none;">Price:</strong> ${itemPrice} <span id="copy-pass" style="cursor: pointer; user-select: none;">&#x1F4CB;</span>`;
 
         Swal.fire({
           title: itemToSearch,
@@ -239,7 +239,7 @@ class PointOfSale {
         });
 
         let copyQuantity = document.getElementById("copy-quantity");
-        let copyPassword = document.getElementById("copy-pass");
+        let copyPrice = document.getElementById("copy-pass");
 
         copyQuantity.onclick = function () {
           copyToClipboard("quantity", itemQuantity);
@@ -249,11 +249,11 @@ class PointOfSale {
           }, 500);
         };
 
-        copyPassword.onclick = function () {
-          copyToClipboard("password", itemPassword);
-          copyPassword.innerHTML = `<span style="background-color: #3498db; color: #fff; padding: 0 20px 0 20px; border-radius: 4px;">Copied!</span>`;
+        copyPrice.onclick = function () {
+          copyToClipboard("price", itemPrice);
+          copyPrice.innerHTML = `<span style="background-color: #3498db; color: #fff; padding: 0 20px 0 20px; border-radius: 4px;">Copied!</span>`;
           setTimeout(() => {
-            copyPassword.innerHTML = "&#x1F4CB;";
+            copyPrice.innerHTML = "&#x1F4CB;";
           }, 500);
         };
 
@@ -271,14 +271,14 @@ class PointOfSale {
     let editOption = "";
     const quantityHtml =
       '<input id="quantity-input" class="swal2-input" placeholder="Quantity">';
-    const passwordHtml =
-      '<input id="password-input" class="swal2-input" placeholder="Password">';
-    const bothHtml = `<input id="quantity-input" class="swal2-input" placeholder="Enter quantity"><input id="password-input" class="swal2-input" placeholder="Enter password">`;
+    const priceHtml =
+      '<input id="price-input" class="swal2-input" placeholder="Price">';
+    const bothHtml = `<input id="quantity-input" class="swal2-input" placeholder="Enter quantity"><input id="price-input" class="swal2-input" placeholder="Enter price">`;
 
     // const editData = {
     //   itemToEdit: this.itemElement.value,
     //   newQuantity: this.quantityElement.value,
-    //   newPassword: this.passwordElement.value,
+    //   newPrice: this.priceElement.value,
     //   editOption: editOption,
     // };
 
@@ -286,7 +286,7 @@ class PointOfSale {
       setTimeout(() => {
         resolve({
           quantity: "Quantity",
-          password: "Password",
+          price: "Price",
           both: "Both",
         });
       }, 300);
@@ -328,21 +328,21 @@ class PointOfSale {
             }
           });
           // ? EDIT PASSWORD
-        } else if (editOption == "password") {
+        } else if (editOption == "price") {
           Swal.fire({
-            title: "Enter new password",
-            html: passwordHtml,
+            title: "Enter new price",
+            html: priceHtml,
             showCancelButton: true,
             confirmButtonText: "Submit",
             cancelButtonText: "Cancel",
             focusConfirm: false,
             preConfirm: () => {
-              return document.getElementById("password-input").value;
+              return document.getElementById("price-input").value;
             },
           }).then((result) => {
             if (result.isConfirmed) {
-              console.log(this.itemElement.value, result.value, "", "password");
-              Edit(this.itemElement.value, "", result.value, "password").then(
+              console.log(this.itemElement.value, result.value, "", "price");
+              Edit(this.itemElement.value, "", result.value, "price").then(
                 (res) => {
                   showAlert(this.alertMessage, res);
                 }
@@ -353,7 +353,7 @@ class PointOfSale {
           // ? EDIT BOTH
         } else if (editOption == "both") {
           Swal.fire({
-            title: "Enter new quantity and password",
+            title: "Enter new quantity and price",
             html: bothHtml,
             showCancelButton: true,
             confirmButtonText: "Submit",
@@ -362,7 +362,7 @@ class PointOfSale {
             preConfirm: () => {
               return [
                 document.getElementById("quantity-input").value,
-                document.getElementById("password-input").value,
+                document.getElementById("price-input").value,
               ];
             },
           }).then((result) => {

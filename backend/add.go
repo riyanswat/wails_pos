@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func AddToJSON(item, quantity, password string) string {
+func AddToJSON(item, quantity, price string) string {
 	// FileName := "./backend/embed/data.json"
 
 	// create data dir
@@ -19,18 +19,18 @@ func AddToJSON(item, quantity, password string) string {
 	data := UserData{
 		Item:     strings.ToLower(item),
 		Quantity: quantity,
-		Password: password,
+		Price:    price,
 	}
 
 	spacesRegex := `^\s+$`
 	spacesReg := regexp.MustCompile(spacesRegex)
 
-	if password == "" ||
+	if price == "" ||
 		item == "" ||
 		quantity == "" ||
 		spacesReg.MatchString(item) ||
 		spacesReg.MatchString(quantity) ||
-		spacesReg.MatchString(password) {
+		spacesReg.MatchString(price) {
 		return "Fill all the fields"
 	}
 

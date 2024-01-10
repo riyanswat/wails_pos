@@ -29,8 +29,8 @@ func (a *App) Generate(length int) string {
 	return GenerateRandomPassword(length)
 }
 
-func (a *App) Add(item, quantity, password string) string {
-	return AddToJSON(item, quantity, password)
+func (a *App) Add(item, quantity, price string) string {
+	return AddToJSON(item, quantity, price)
 }
 
 func (a *App) Delete(itemToDelete string) string {
@@ -45,7 +45,7 @@ func (a *App) AllData() []UserData {
 	return ShowAll()
 }
 
-// func (a *App) Edit(web, quantity, password, editOption string) string {
+// func (a *App) Edit(web, quantity, price, editOption string) string {
 // 	spacesPattern := `^\s+$`
 // 	spacesRe := regexp.MustCompile(spacesPattern)
 
@@ -58,21 +58,21 @@ func (a *App) AllData() []UserData {
 
 // 	itemError := validateInput(web, "Enter a item")
 // 	quantityError := ""
-// 	passwordError := ""
+// 	priceError := ""
 
 // 	switch editOption {
 // 	case "quantity":
 // 		quantityError = validateInput(quantity, "Enter a valid quantity")
-// 	case "password":
-// 		passwordError = validateInput(password, "Enter a valid password")
+// 	case "price":
+// 		priceError = validateInput(price, "Enter a valid price")
 // 	case "both":
 // 		quantityError = validateInput(quantity, "Enter a valid quantity")
-// 		passwordError = validateInput(password, "Enter a valid password")
-// 		if quantityError != "" || passwordError != "" {
+// 		priceError = validateInput(price, "Enter a valid price")
+// 		if quantityError != "" || priceError != "" {
 // 			return "Enter valid values"
 // 		}
-// 		if quantity == "" || password == "" {
-// 			return "Enter both quantity and password"
+// 		if quantity == "" || price == "" {
+// 			return "Enter both quantity and price"
 // 		}
 // 	default:
 // 		return "Invalid edit option"
@@ -85,7 +85,7 @@ func (a *App) AllData() []UserData {
 // 	data := EditConfig{
 // 		ItemToEdit: web,
 // 		NewQuantity:      quantity,
-// 		NewPassword:   password,
+// 		NewPrice:   price,
 // 		EditOption:    editOption,
 // 	}
 
@@ -94,7 +94,7 @@ func (a *App) AllData() []UserData {
 
 // ? ====================================================================
 
-func (a *App) Edit(web, quantity, password, editOption string) string {
+func (a *App) Edit(web, quantity, price, editOption string) string {
 	spacesPattern := `^\s+$`
 	spacesRe := regexp.MustCompile(spacesPattern)
 
@@ -107,18 +107,18 @@ func (a *App) Edit(web, quantity, password, editOption string) string {
 		return "Enter a valid quantity"
 	}
 
-	if editOption == "password" && (password == "" || spacesRe.MatchString(password)) {
-		return "Enter a valid password"
+	if editOption == "price" && (price == "" || spacesRe.MatchString(price)) {
+		return "Enter a valid price"
 	}
 
-	if editOption == "both" && (password == "" ||
-		spacesRe.MatchString(password) ||
+	if editOption == "both" && (price == "" ||
+		spacesRe.MatchString(price) ||
 		quantity == "" ||
 		spacesRe.MatchString(quantity)) {
 		return "Enter valid values"
 	}
 
-	if !(editOption == "quantity" || editOption == "password" || editOption == "both") {
+	if !(editOption == "quantity" || editOption == "price" || editOption == "both") {
 		return "Invalid edit option"
 	}
 
@@ -126,7 +126,7 @@ func (a *App) Edit(web, quantity, password, editOption string) string {
 		data := EditConfig{
 			ItemToEdit:  web,
 			NewQuantity: quantity,
-			NewPassword: password,
+			NewPrice:    price,
 			EditOption:  editOption,
 		}
 		return EditJSON(data)
@@ -140,11 +140,11 @@ func (a *App) Edit(web, quantity, password, editOption string) string {
 		}
 
 		return EditJSON(data)
-	} else if editOption == "password" {
+	} else if editOption == "price" {
 		data := EditConfig{
-			ItemToEdit:  web,
-			NewPassword: password,
-			EditOption:  editOption,
+			ItemToEdit: web,
+			NewPrice:   price,
+			EditOption: editOption,
 		}
 
 		return EditJSON(data)
@@ -152,7 +152,7 @@ func (a *App) Edit(web, quantity, password, editOption string) string {
 		data := EditConfig{
 			ItemToEdit:  web,
 			NewQuantity: quantity,
-			NewPassword: password,
+			NewPrice:    price,
 			EditOption:  editOption,
 		}
 

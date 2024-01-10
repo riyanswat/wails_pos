@@ -9,13 +9,13 @@ var FileName string = "./embed/data.json"
 type UserData struct {
 	Item     string `json:"item"`
 	Quantity string `json:"quantity"`
-	Password string `json:"password"`
+	Price    string `json:"price"`
 }
 
 // Editing configuration struct
 type EditConfig struct {
 	ItemToEdit  string
 	NewQuantity string
-	NewPassword string
-	EditOption  string // "quantity", "password", "both"
+	NewPrice    string
+	EditOption  string // "quantity", "price", "both"
 }

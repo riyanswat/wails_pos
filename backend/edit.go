@@ -28,16 +28,16 @@ func EditJSON(config EditConfig) string {
 				if config.NewQuantity != "" {
 					users[i].Quantity = config.NewQuantity
 				}
-			case "password":
-				if config.NewPassword != "" {
-					users[i].Password = config.NewPassword
+			case "price":
+				if config.NewPrice != "" {
+					users[i].Price = config.NewPrice
 				}
 			case "both":
 				if config.NewQuantity != "" {
 					users[i].Quantity = config.NewQuantity
 				}
-				if config.NewPassword != "" {
-					users[i].Password = config.NewPassword
+				if config.NewPrice != "" {
+					users[i].Price = config.NewPrice
 				}
 			}
 
