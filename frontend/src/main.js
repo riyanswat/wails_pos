@@ -193,21 +193,10 @@ class PointOfSale {
     this._toggleDisplay();
     this._clearFields();
 
-    // this.allDataElem.style.display = "block";
-    // this.appElem.style.display = "none";
-    // this.homeKey.onclick = () => {
-    //   this.allDataElem.style.display = "none";
-    //   this.appElem.style.display = "flex";
-    // };
-
     AllData().then((data) => {
       console.log(data);
       // showAlert(this.alertMessage, data);
       for (let entry of data) {
-        console.log(entry.item);
-        console.log(entry.quantity);
-        console.log(entry.price);
-
         const row = document.createElement("tr");
         const itemCell = document.createElement("td");
         itemCell.textContent = entry.item;
@@ -282,143 +271,148 @@ class PointOfSale {
   async handleEdit() {
     let itemToEdit = this.itemElement.value;
     let spacesRegex = /^\s+$/;
-    if (!itemToEdit || reg.test(spacesRegex)) {
+    if (!itemToEdit || spacesRegex.test(itemToEdit)) {
       showAlert(this.alertMessage, "Enter an item to edit");
       return;
     }
 
     Search(itemToEdit).then((res) => {
       if (res[1] == "no") {
-        // ------------------ ITEM DOESN'T EXIST ------------------
+        // ------------------ ITEM DOESN'T EXIST: ------------------
         console.log("Item doesn't exist");
         showAlert(this.alertMessage, "Item doesn't exist");
         return;
       } else {
-        // ------------------ ITEM EXISTS ------------------
+        // ------------------ ITEM EXISTS: ------------------
         console.log("Item exists");
+
+        let editOption = "";
+        const quantityHtml =
+          '<input id="quantity-input" class="swal2-input" placeholder="Quantity">';
+        const priceHtml =
+          '<input id="price-input" class="swal2-input" placeholder="Price">';
+        const bothHtml = `<input id="quantity-input" class="swal2-input" placeholder="Enter quantity"><input id="price-input" class="swal2-input" placeholder="Enter price">`;
+
+        const inputOptions = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              quantity: "Quantity",
+              price: "Price",
+              both: "Both",
+            });
+          }, 300);
+        });
+
+        Swal.fire({
+          title: "What do you want to edit?",
+          input: "radio",
+          inputOptions,
+          showCancelButton: true,
+          inputValidator: (value) => {
+            if (!value) {
+              return "You need to choose something!";
+            }
+          },
+        }).then(({ value: option }) => {
+          if (option) {
+            editOption = option;
+            // ? -------------------- EDIT QUANTITY --------------------
+
+            if (editOption == "quantity") {
+              Swal.fire({
+                title: "Enter new quantity",
+                html: quantityHtml,
+                showCancelButton: true,
+                confirmButtonText: "Submit",
+                cancelButtonText: "Cancel",
+                focusConfirm: false,
+                preConfirm: () => {
+                  return document.getElementById("quantity-input").value;
+                },
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  console.log(
+                    this.itemElement.value,
+                    result.value,
+                    "",
+                    "quantity"
+                  );
+                  Edit(
+                    this.itemElement.value,
+                    result.value,
+                    "",
+                    "quantity"
+                  ).then((res) => {
+                    showAlert(this.alertMessage, res);
+                  });
+                }
+              });
+
+              // ? -------------------- EDIT PRICE --------------------
+            } else if (editOption == "price") {
+              Swal.fire({
+                title: "Enter new price",
+                html: priceHtml,
+                showCancelButton: true,
+                confirmButtonText: "Submit",
+                cancelButtonText: "Cancel",
+                focusConfirm: false,
+                preConfirm: () => {
+                  return document.getElementById("price-input").value;
+                },
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  console.log(
+                    this.itemElement.value,
+                    result.value,
+                    "",
+                    "price"
+                  );
+                  Edit(this.itemElement.value, "", result.value, "price").then(
+                    (res) => {
+                      showAlert(this.alertMessage, res);
+                    }
+                  );
+                }
+              });
+              // ? -------------------- EDIT BOTH --------------------
+            } else if (editOption == "both") {
+              Swal.fire({
+                title: "Enter new quantity and price",
+                html: bothHtml,
+                showCancelButton: true,
+                confirmButtonText: "Submit",
+                cancelButtonText: "Cancel",
+                focusConfirm: false,
+                preConfirm: () => {
+                  return [
+                    document.getElementById("quantity-input").value,
+                    document.getElementById("price-input").value,
+                  ];
+                },
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  console.log(
+                    this.itemElement.value,
+                    result.value[0],
+                    result.value[1],
+                    "both"
+                  );
+                  Edit(
+                    this.itemElement.value,
+                    result.value[0],
+                    result.value[1],
+                    "both"
+                  ).then((res) => {
+                    showAlert(this.alertMessage, res);
+                  });
+                }
+              });
+            }
+          }
+        });
       }
     });
-
-    // let editOption = "";
-    // const quantityHtml =
-    //   '<input id="quantity-input" class="swal2-input" placeholder="Quantity">';
-    // const priceHtml =
-    //   '<input id="price-input" class="swal2-input" placeholder="Price">';
-    // const bothHtml = `<input id="quantity-input" class="swal2-input" placeholder="Enter quantity"><input id="price-input" class="swal2-input" placeholder="Enter price">`;
-
-    // // const editData = {
-    // //   itemToEdit: this.itemElement.value,
-    // //   newQuantity: this.quantityElement.value,
-    // //   newPrice: this.priceElement.value,
-    // //   editOption: editOption,
-    // // };
-
-    // const inputOptions = new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     resolve({
-    //       quantity: "Quantity",
-    //       price: "Price",
-    //       both: "Both",
-    //     });
-    //   }, 300);
-    // });
-
-    // Swal.fire({
-    //   title: "What do you want to edit?",
-    //   input: "radio",
-    //   inputOptions,
-    //   showCancelButton: true,
-    //   inputValidator: (value) => {
-    //     if (!value) {
-    //       return "You need to choose something!";
-    //     }
-    //   },
-    // }).then(({ value: option }) => {
-    //   if (option) {
-    //     editOption = option;
-    //     // ? -------------------- EDIT QUANTITY --------------------
-
-    //     if (editOption == "quantity") {
-    //       Swal.fire({
-    //         title: "Enter new quantity",
-    //         html: quantityHtml,
-    //         showCancelButton: true,
-    //         confirmButtonText: "Submit",
-    //         cancelButtonText: "Cancel",
-    //         focusConfirm: false,
-    //         preConfirm: () => {
-    //           return document.getElementById("quantity-input").value;
-    //         },
-    //       }).then((result) => {
-    //         if (result.isConfirmed) {
-    //           console.log(this.itemElement.value, result.value, "", "quantity");
-    //           Edit(this.itemElement.value, result.value, "", "quantity").then(
-    //             (res) => {
-    //               showAlert(this.alertMessage, res);
-    //             }
-    //           );
-    //         }
-    //       });
-
-    //       // ? -------------------- EDIT PRICE --------------------
-    //     } else if (editOption == "price") {
-    //       Swal.fire({
-    //         title: "Enter new price",
-    //         html: priceHtml,
-    //         showCancelButton: true,
-    //         confirmButtonText: "Submit",
-    //         cancelButtonText: "Cancel",
-    //         focusConfirm: false,
-    //         preConfirm: () => {
-    //           return document.getElementById("price-input").value;
-    //         },
-    //       }).then((result) => {
-    //         if (result.isConfirmed) {
-    //           console.log(this.itemElement.value, result.value, "", "price");
-    //           Edit(this.itemElement.value, "", result.value, "price").then(
-    //             (res) => {
-    //               showAlert(this.alertMessage, res);
-    //             }
-    //           );
-    //           // Swal.fire("You entered:", `${result}`);
-    //         }
-    //       });
-    //       // ? -------------------- EDIT BOTH --------------------
-    //     } else if (editOption == "both") {
-    //       Swal.fire({
-    //         title: "Enter new quantity and price",
-    //         html: bothHtml,
-    //         showCancelButton: true,
-    //         confirmButtonText: "Submit",
-    //         cancelButtonText: "Cancel",
-    //         focusConfirm: false,
-    //         preConfirm: () => {
-    //           return [
-    //             document.getElementById("quantity-input").value,
-    //             document.getElementById("price-input").value,
-    //           ];
-    //         },
-    //       }).then((result) => {
-    //         if (result.isConfirmed) {
-    //           console.log(
-    //             this.itemElement.value,
-    //             result.value[0],
-    //             result.value[1],
-    //             "both"
-    //           );
-    //           Edit(
-    //             this.itemElement.value,
-    //             result.value[0],
-    //             result.value[1],
-    //             "both"
-    //           ).then((res) => {
-    //             showAlert(this.alertMessage, res);
-    //           });
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
 
     // this._clearFields();
   }
