@@ -45,6 +45,10 @@ func (a *App) AllData() []UserData {
 	return ShowAll()
 }
 
+func (a *App) PasswordProtect() string {
+	return AppPassword
+}
+
 // func (a *App) Edit(item, quantity, price, editOption string) string {
 // 	spacesPattern := `^\s+$`
 // 	spacesRe := regexp.MustCompile(spacesPattern)

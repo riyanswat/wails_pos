@@ -9,10 +9,28 @@ import {
   Search,
   AllData,
   Edit,
+  PasswordProtect,
 } from "../wailsjs/go/backend/App";
 
 class PointOfSale {
   constructor() {
+    // main app password from the backend:
+    // In 'backend/utils.go', I have:
+    // var AppPassword string = "riyan"
+    // which is the password of the main app
+
+    const storedPassword = sessionStorage.getItem("appPassword");
+    if (storedPassword) {
+      this.passwordProtection = storedPassword;
+    } else {
+      // If no stored password, fetch from the backend
+      PasswordProtect().then((main_password) => {
+        this.passwordProtection = main_password; // set it to 'main_password' to enable pass protection
+      });
+    }
+
+    // ----------------------------------------
+
     // input and output elements
     this.priceElement = document.getElementById("price");
     this.itemElement = document.getElementById("item");
@@ -97,37 +115,96 @@ class PointOfSale {
 
   // ------------------------------------------------------------
 
+  async _getPassword() {
+    // Check if the password is already stored in sessionStorage
+    const storedPassword = sessionStorage.getItem("appPassword");
+
+    if (storedPassword) {
+      return storedPassword;
+    }
+
+    // If not stored, prompt the user
+    const { value: password } = await Swal.fire({
+      title: "Enter your password",
+      input: "password",
+      inputLabel: "Password",
+      inputPlaceholder: "Enter your password",
+      inputAttributes: {
+        maxlength: "10",
+        autocapitalize: "off",
+        autocorrect: "off",
+      },
+    });
+
+    // Store the entered password in sessionStorage
+    sessionStorage.setItem("appPassword", password);
+
+    return password;
+  }
+
+  // ------------------------------------------------------------
+
+  async _validatePassword() {
+    // Check if password protection is enabled
+    if (this.passwordProtection !== null) {
+      const storedPassword = sessionStorage.getItem("appPassword");
+
+      if (!storedPassword) {
+        // If no stored password, validate the entered password
+        const enteredPassword = await this._getPassword();
+
+        if (enteredPassword !== this.passwordProtection) {
+          Swal.fire("Incorrect password");
+          return false;
+        }
+      } else {
+        // If a password is stored, validate it against the backend password
+        if (storedPassword !== this.passwordProtection) {
+          Swal.fire("Incorrect password");
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // ------------------------------------------------------------
+
   // non-private methods
 
   async handleAdd() {
     const itemToAdd = this.itemElement.value;
-    if (!itemToAdd) {
-      showAlert(this.alertMessage, "Please enter an item");
+    const quantityToAdd = this.quantityElement.value;
+    const priceToAdd = this.priceElement.value;
+
+    if (!itemToAdd || !quantityToAdd || !priceToAdd) {
+      showAlert(this.alertMessage, "Please fill all the fields");
       return;
     }
 
-    try {
-      Add(
-        this.itemElement.value,
-        this.quantityElement.value,
-        this.priceElement.value
-      )
-        .then((res) => {
-          if (res === "Successful") {
-            showAlert(this.alertMessage, "Added successfully");
-            this._clearFields();
-            return;
-          } else {
-            showAlert(this.alertMessage, `${res}`);
-            return;
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } catch (err) {
-      console.error(err);
+    // validate password
+    if (!(await this._validatePassword())) {
+      return;
     }
+
+    Add(
+      this.itemElement.value,
+      this.quantityElement.value,
+      this.priceElement.value
+    )
+      .then((res) => {
+        if (res === "Successful") {
+          showAlert(this.alertMessage, "Added successfully");
+          this._clearFields();
+          return;
+        } else {
+          showAlert(this.alertMessage, `${res}`);
+          return;
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   // ------------------------------------------------------------
@@ -139,9 +216,15 @@ class PointOfSale {
       return;
     }
 
+    // validate password
+    if (!(await this._validatePassword())) {
+      return;
+    }
+
     Search(itemToDelete).then((res) => {
       if (res[1] == "yes") {
         //* Confirm deletion
+
         Swal.fire({
           title: "Are you sure?",
           text: `Do you really want to delete '${itemToDelete}'?`,
@@ -188,6 +271,10 @@ class PointOfSale {
   // ------------------------------------------------------------
 
   async handleShowAll() {
+    // validate password
+    if (!(await this._validatePassword())) {
+      return;
+    }
     this.dataTableBody.innerHTML = "";
 
     this._toggleDisplay();
@@ -219,6 +306,11 @@ class PointOfSale {
     const itemToSearch = this.itemElement.value;
     if (!itemToSearch) {
       showAlert(this.alertMessage, "Please enter an item");
+      return;
+    }
+
+    // validate password
+    if (!(await this._validatePassword())) {
       return;
     }
 
@@ -273,6 +365,11 @@ class PointOfSale {
     let spacesRegex = /^\s+$/;
     if (!itemToEdit || spacesRegex.test(itemToEdit)) {
       showAlert(this.alertMessage, "Enter an item to edit");
+      return;
+    }
+
+    // validate password
+    if (!(await this._validatePassword())) {
       return;
     }
 
