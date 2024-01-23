@@ -4,6 +4,9 @@ package backend
 // var FileName string = "./backend/embed/data.json"
 var FileName string = "./embed/data.json"
 
+// App password
+var AppPassword string = "riyan"
+
 // STRUCTS:
 // user json struct
 type UserData struct {

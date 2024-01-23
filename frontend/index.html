@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/app.css" />
     <link rel="stylesheet" href="./src/style.css" />
-    <!-- GOOGLE FONTS: -->
+
+    <!-- -------------------- GOOGLE FONTS: -------------------- -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap"
       rel="stylesheet"
     />
-    <!-- GOOGLE FONTS ^^^ -->
+    <!-- -------------------- END-BLOCK GOOGLE FONTS -------------------- -->
     <title>Point Of Sale</title>
   </head>
   <body>
-    <!-- ????????????????? HOMEPAGE ???????????????? -->
+    <!-- -------------------- HOMEPAGE -------------------- -->
     <div id="app" class="container">
       <div class="container">
         <h1 id="main-heading" class="main-heading">POINT OF SALE</h1>
@@ -33,6 +34,8 @@
         <div id="alertMessage"></div>
         <div class="result" id="result"></div>
         <div class="input-box">
+          <!-- -------------------- ITEM -------------------- -->
+
           <div class="input-field">
             <input
               class="input"
@@ -42,6 +45,9 @@
               autocomplete="off"
             />
           </div>
+
+          <!-- -------------------- QUANTITY -------------------- -->
+
           <div class="input-field">
             <input
               class="input"
@@ -51,16 +57,21 @@
               autocomplete="off"
             />
           </div>
+
+          <!-- -------------------- PRICE -------------------- -->
+
           <div class="input-field">
             <input
               class="input"
               placeholder="Price"
               id="price"
-              type="text"
+              type="number"
               autocomplete="off"
             />
           </div>
         </div>
+
+        <!-- -------------------- BUTTONS: -------------------- -->
 
         <div class="buttons">
           <div class="btn" id="generate-btn">Generate</div>
@@ -72,15 +83,10 @@
         </div>
       </div>
     </div>
-    <!-- ????????????????? HOMEPAGE ???????????????? -->
 
-    <!-- 
-      !
-      !
-      !
-     -->
+    <!-- -------------------- END-BLOCK HOMEPAGE -------------------- -->
 
-    <!-- ????????????????? ALL DATA ???????????????? -->
+    <!-- -------------------- ALL DATA: -------------------- -->
 
     <div id="all-data" class="container">
       <div class="container">
@@ -112,9 +118,13 @@
       </div>
     </div>
 
-    <!-- ????????????????? ALL DATA ???????????????? -->
+    <!-- -------------------- END-BLOCK ALL DATA -------------------- -->
+
+    <!-- -------------------- JS SCRIPTS: -------------------- -->
 
     <script src="./src/main.js" type="module"></script>
     <script src="./src/utils.js" type="module"></script>
+
+    <!-- -------------------- END-BLOCK JS SCRIPTS -------------------- -->
   </body>
 </html>

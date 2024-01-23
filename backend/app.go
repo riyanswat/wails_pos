@@ -45,7 +45,7 @@ func (a *App) AllData() []UserData {
 	return ShowAll()
 }
 
-// func (a *App) Edit(web, quantity, price, editOption string) string {
+// func (a *App) Edit(item, quantity, price, editOption string) string {
 // 	spacesPattern := `^\s+$`
 // 	spacesRe := regexp.MustCompile(spacesPattern)
 
@@ -56,7 +56,7 @@ func (a *App) AllData() []UserData {
 // 	return ""
 // }
 
-// 	itemError := validateInput(web, "Enter a item")
+// 	itemError := validateInput(item, "Enter a item")
 // 	quantityError := ""
 // 	priceError := ""
 
@@ -83,7 +83,7 @@ func (a *App) AllData() []UserData {
 // 	}
 
 // 	data := EditConfig{
-// 		ItemToEdit: web,
+// 		ItemToEdit: item,
 // 		NewQuantity:      quantity,
 // 		NewPrice:   price,
 // 		EditOption:    editOption,
@@ -94,12 +94,12 @@ func (a *App) AllData() []UserData {
 
 // ? ====================================================================
 
-func (a *App) Edit(web, quantity, price, editOption string) string {
+func (a *App) Edit(item, quantity, price, editOption string) string {
 	spacesPattern := `^\s+$`
 	spacesRe := regexp.MustCompile(spacesPattern)
 
-	if web == "" ||
-		spacesRe.MatchString(web) {
+	if item == "" ||
+		spacesRe.MatchString(item) {
 		return "Enter an item"
 	}
 
@@ -124,7 +124,7 @@ func (a *App) Edit(web, quantity, price, editOption string) string {
 
 	if editOption == "both" {
 		data := EditConfig{
-			ItemToEdit:  web,
+			ItemToEdit:  item,
 			NewQuantity: quantity,
 			NewPrice:    price,
 			EditOption:  editOption,
@@ -134,7 +134,7 @@ func (a *App) Edit(web, quantity, price, editOption string) string {
 
 	if editOption == "quantity" {
 		data := EditConfig{
-			ItemToEdit:  web,
+			ItemToEdit:  item,
 			NewQuantity: quantity,
 			EditOption:  editOption,
 		}
@@ -142,7 +142,7 @@ func (a *App) Edit(web, quantity, price, editOption string) string {
 		return EditJSON(data)
 	} else if editOption == "price" {
 		data := EditConfig{
-			ItemToEdit: web,
+			ItemToEdit: item,
 			NewPrice:   price,
 			EditOption: editOption,
 		}
@@ -150,7 +150,7 @@ func (a *App) Edit(web, quantity, price, editOption string) string {
 		return EditJSON(data)
 	} else if editOption == "both" {
 		data := EditConfig{
-			ItemToEdit:  web,
+			ItemToEdit:  item,
 			NewQuantity: quantity,
 			NewPrice:    price,
 			EditOption:  editOption,
